@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Valentine App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <style>
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: system-ui, Arial, sans-serif;
+      background: linear-gradient(135deg, #ff4d6d, #ff9a3c, #7b2ff7, #00d4ff);
+      background-size:300% 300%;
+      animation:bgMove 8s ease infinite;
+    }
+    @keyframes bgMove{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    .card{
+      background: rgba(255,255,255,.95);
+      padding: 24px;
+      border-radius: 22px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.2);
+      text-align:center;
+      width:min(520px, 92vw);
+    }
+
+    h1{ margin:0 0 10px; }
+
+    .status{
+      min-height: 48px;
+      margin: 12px 0 18px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-weight: 600;
+      background: #f3f3ff;
+    }
+
+    .btnRow{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border:none;
+      border-radius: 16px;
+      padding: 12px 18px;
+      font-size: 20px;
+      font-weight: 700;
+      cursor:pointer;
+      box-shadow: 0 10px 22px rgba(0,0,0,.15);
+      transition: transform .15s ease;
+    }
+
+    #yesBtn{
+      background: linear-gradient(135deg, #00c853, #00d4ff);
+      color:white;
+    }
+    #noBtn{
+      background: linear-gradient(135deg, #ffd166, #ff4d6d);
+      color:#1a1a1a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Will you be my valentine? 💘</h1>
+    <div class="status" id="status">Choose wisely 😌</div>
+
+    <div class="btnRow">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn  = document.getElementById("noBtn");
+    const status = document.getElementById("status");
+
+    const baseSize = 20;     // original size
+    let yesSize = baseSize;  // current size
+    let stage = 0;
+
+    const noMessages = [
+      "Wrong pick again...",
+      "You vex wid me?",
+      "My girl wah wrong wid you",
+      "Not because you see options means you have a choice"
+    ];
+
+    function setYesSize(px){
+      yesBtn.style.fontSize = px + "px";
+      noBtn.style.fontSize  = baseSize + "px";
+    }
+
+    setYesSize(baseSize);
+
+    noBtn.addEventListener("click", () => {
+      // If not at last message yet
+      if (stage < noMessages.length - 1) {
+        status.textContent = noMessages[stage];
+        stage++;
+
+        // Drastically grow YES
+        yesSize = Math.round(yesSize * 1.4);
+        setYesSize(yesSize);
+      } else {
+        // Last message reached
+        status.textContent = noMessages[noMessages.length - 1];
+
+        // Change both buttons to YES
+        yesBtn.textContent = "Yes";
+        noBtn.textContent  = "Yes";
+
+        // Reset sizes
+        yesSize = baseSize;
+        setYesSize(baseSize);
+      }
+    });
+
+    yesBtn.addEventListener("click", () => {
+      status.textContent = "Yessss! 💖 We locked in 😄";
+      // Optional: grow a bit for celebration
+      yesSize = Math.round(yesSize * 1.4);
+      setYesSize(yesSize);
+    });
+  </script>
+
+</body>
+</html>
